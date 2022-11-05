@@ -44,20 +44,31 @@ public class BookingTest extends BaseTest {
     }
 
     private boolean validateBookingHasBeenCreated(BookingsPage bookingsPage, String expectedBookingName) {
-        bookingsPage.bookingsList().waitListTab().click();
+        var attempt = 2;
+        do {
+            bookingsPage.bookingsList().waitListTab().click();
+            if (checkBookingsList(bookingsPage, expectedBookingName)) return true;
+
+            bookingsPage.bookingsList().bookingsTab().click();
+            if (checkBookingsList(bookingsPage, expectedBookingName)) return true;
+
+            bookingsPage.bookingsList().seatedTab().click();
+            if (checkBookingsList(bookingsPage, expectedBookingName)) return true;
+
+            // because of timezone different on local machine,
+            // booking created today might be added to the day before
+            bookingsPage.datePickerLeftArrow().click();
+            attempt--;
+        } while(attempt > 0);
+        return false;
+    }
+
+    private boolean checkBookingsList(BookingsPage bookingsPage, String expectedBookingName) {
         for (var row = 1; row <= bookingsPage.bookingsList().numberOfBookings(); row++) {
             var bookingName = bookingsPage.bookingsList().bookingName(row).toLowerCase();
             if (expectedBookingName.toLowerCase().equals(bookingName))
                 return true;
         }
-
-        bookingsPage.bookingsList().seatedTab().click();
-        for (var row = 1; row <= bookingsPage.bookingsList().numberOfBookings(); row++) {
-            var bookingName = bookingsPage.bookingsList().bookingName(row).toLowerCase();
-            if (expectedBookingName.toLowerCase().equals(bookingName))
-                return true;
-        }
-
         return false;
     }
 }

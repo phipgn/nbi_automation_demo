@@ -56,7 +56,7 @@ public class BookingStep extends BaseStep {
 
     @Then("^Booking should be added successfully$")
     public void bookingShouldBeAddedSuccessfully() {
-        Assert.assertTrue(validateBookingHasBeenCreated(bookingsPage, expectedBookingName));
+        Assert.assertTrue(validateBookingHasBeenCreated(bookingsPage));
     }
 
     @After
@@ -64,7 +64,7 @@ public class BookingStep extends BaseStep {
         driver.quit();
     }
 
-    private boolean validateBookingHasBeenCreated(BookingsPage bookingsPage, String expectedBookingName) {
+    private boolean validateBookingHasBeenCreated(BookingsPage bookingsPage) {
         var attempt = 2;
         do {
             bookingsPage.bookingsList().waitListTab().click();

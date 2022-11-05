@@ -12,7 +12,8 @@ import org.junit.runner.RunWith;
         "pretty",
         "html:reports"
     },
-    monochrome = true
+    monochrome = true,
+    tags = "@booking"
 )
 public class TestRunner {
 }

@@ -1,5 +1,6 @@
 Feature: Booking
 
+  @booking
   Scenario: As a user, I want to make a walk-in booking
     Given Login and navigate to Admin Portal page
     When Click on venue at row 1
